@@ -1,0 +1,131 @@
+1.api for registering a new user
+   
+    url:http://127.0.0.1:8000/api/register/
+    method:post
+    data:{username,email,password}
+    authorization:nill
+
+2.api for fetching token
+
+    url:http://127.0.0.1:8000/token/
+    method:post
+    data:{username,password}
+    authorization:nill
+
+3.api for refreshing token
+
+    url:http://127.0.0.1:8000/refresh_token/
+    method:post
+    data:refresh token
+    authorization:nill
+
+4.api for adding an item
+
+    url:http://127.0.0.1:8000/item/
+    method:post
+    data:{name,image,category,is_available,is_non_veg,is_variable}
+    authorization:jwt
+
+5.api for getting all items
+
+    url:http://127.0.0.1:8000/item/
+    method:get
+    data:nill
+    authorization:jwt
+
+6.api for getting one item
+
+    url:http://127.0.0.1:8000/item/{id}/
+    method:get
+    data:nill
+    authorization:jwt
+
+6.api for updating one item
+
+    url:http://127.0.0.1:8000/item/{id}/
+    method:put
+    data:{name,image,category,is_available,is_non_veg,is_variable}
+    authorization:jwt
+
+
+7.api for del one item
+
+    url:http://127.0.0.1:8000/item/{id}/
+    method:delete
+    data:nill
+    authorization:jwt
+
+
+8.api for adding item variable
+
+    url:http://127.0.0.1:8000/item/{id of item}/add_varient/
+    method:post
+    data:{price,name}
+    authorization:jwt
+
+9.api to get all variant of an item
+
+    url:http://127.0.0.1:8000/item/{id of item}/get_varient/
+    method:get
+    data:null
+    authorization:jwt
+
+10.api to del a variant of an item
+
+    url:http://127.0.0.1:8000/itemvarient/{id of item varient}/
+    method:del
+    data:null
+    authorization:jwt
+
+11.api to add/update an itemvarient to cartitems
+
+    url:http://127.0.0.1:8000/itemvarient/{id of item varient}/add_to_cart/
+    method:POST
+    data:{quantity:int}
+    authorization:jwt
+
+12.api to delete an itemvarient from cartitems
+
+    url:http://127.0.0.1:8000/itemvarient/{id of item varient}/remove_from_cart/
+    method:DELETE
+    data:NILL
+    authorization:jwt
+
+13.api to view cart (cartitems)
+
+    url:http://127.0.0.1:8000/cart/
+    method:GET
+    data:NILL
+    authorization:jwt
+
+14.api to create an order
+
+    url:http://127.0.0.1:8000/order
+    method:POST
+    data:{table_no:int optional}
+    authorization:jwt
+
+15.api to get all orders from today
+
+    url:http://127.0.0.1:8000/order
+    query_params:date=today,
+    method:GET
+    data:nill
+    authorization:jwt
+
+15.api to update an order with product
+
+    url:http://127.0.0.1:8000/order/{order_id}
+    method:PUT
+    data:{item_var_id:int,quantity:int}
+    authorization:jwt
+    
+
+15.api to update order status
+
+    url:http://127.0.0.1:8000/order/{order_id}/order_item_status_change
+    method:PUT
+    data:{order_status:Confirmed,Processing,Ready,Canceled}
+    authorization:jwt
+
+
