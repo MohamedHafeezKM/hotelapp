@@ -21,6 +21,15 @@ class ItemSerializer(serializers.ModelSerializer):
 
         read_only_fields=['id','created_by']
 
+        extra_kwargs = {
+            'name': {'required': False},
+            'image': {'required': False},
+            'category': {'required': False},
+            'is_available': {'required': False},
+            'is_non_veg': {'required': False},
+            'is_variable': {'required': False},
+        }
+
 
 class ItemVarientSerializer(serializers.ModelSerializer):
     item=ItemSerializer(read_only=True)

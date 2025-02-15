@@ -17,4 +17,7 @@ select * from api_cartitemmodel;
 delete from api_cartitemmodel where id=1;
 
 select * from api_ordermodel;
-select * from api_orderitemmodel;
+select * from api_orderitemmodel where order_id=11;
+
+
+select * from django_session;

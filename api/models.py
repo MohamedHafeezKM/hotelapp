@@ -28,7 +28,11 @@ class ItemModel(models.Model):
         if obj.image and self.image and obj.image != self.image:
             # delete the old image file from the storage in favor of the new file
             obj.image.delete()
-
+    
+    def save(self, *args, **kwargs):
+        # object is possibly being updated, if so, clean up.
+        self.remove_on_image_update()
+        return super(ItemModel, self).save(*args, **kwargs)
 
 
 

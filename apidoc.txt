@@ -102,7 +102,7 @@
 
     url:http://127.0.0.1:8000/order
     method:POST
-    data:{table_no:int optional}
+    data:{table_no:int,takeaway:True/False optional}
     authorization:jwt
 
 15.api to get all orders from today
@@ -113,7 +113,7 @@
     data:nill
     authorization:jwt
 
-15.api to update an order with product
+16.api to update an order with product
 
     url:http://127.0.0.1:8000/order/{order_id}
     method:PUT
@@ -121,11 +121,19 @@
     authorization:jwt
     
 
-15.api to update order status
+17.api to update order status
 
-    url:http://127.0.0.1:8000/order/{order_id}/order_item_status_change
+    url:http://127.0.0.1:8000/order/{order_item_id}/order_item_status_change
     method:PUT
     data:{order_status:Confirmed,Processing,Ready,Canceled}
+    authorization:jwt
+
+
+18. api to view orderitems using order id
+
+    url:http://127.0.0.1:8000/order/{order_id}/order_item_details
+    method:GET
+    data:nill
     authorization:jwt
 
 

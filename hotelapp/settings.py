@@ -29,10 +29,17 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':timedelta(days=5),
-    "REFRESH_TOKEN_LIFETIME":timedelta(days=1)
+    'ACCESS_TOKEN_LIFETIME':timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME":timedelta(days=8),
+    "UPDATE_LAST_LOGIN": True,
 }
 
+# to make sure Content-Type: application/json is accepted
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',  # Ensure JSON requests are accepted
+    ]
+}
 
 # Application definition
 
@@ -46,11 +53,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'api',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -137,3 +146,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+  
+]

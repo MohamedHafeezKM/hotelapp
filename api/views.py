@@ -11,6 +11,7 @@ from rest_framework.parsers import FileUploadParser,MultiPartParser,FormParser
 from rest_framework.generics import GenericAPIView
 from rest_framework.decorators import action
 from rest_framework.serializers import ValidationError
+from rest_framework.parsers import JSONParser
 from api.serializers import UserSerializer,ItemSerializer,ItemVarientSerializer,CartItemSerializer,OrderItemSerializer,OrderSerializer
 from api.models import ItemModel,ItemVariantModel,CartItemModel,OrderItemModel,OrderModel
 
@@ -69,6 +70,9 @@ class ItemView(ViewSet,GenericAPIView):
     
     def update(self,request,*args,**kwargs):
         id=kwargs.get('pk')
+        print(request.POST)
+        print(request.content_type)
+        
         item=ItemModel.objects.get(id=id)
         serialize=ItemSerializer(data=request.data,instance=item)
         if serialize.is_valid():
@@ -83,8 +87,10 @@ class ItemView(ViewSet,GenericAPIView):
         return Response(data={'message':'This item has been deleted'})
     
 
-    @action(methods=['post'],detail=True)
+    @action(methods=['post'],detail=True,parser_classes=[JSONParser])
     def add_varient(self,request,*args,**kwargs):
+        print("Content-Type:", request.content_type)  # Log the received Content-Type
+        print("Request Data:", request.data) 
         id=kwargs.get('pk')
         item=ItemModel.objects.get(id=id)
         serilizer=ItemVarientSerializer(data=request.data)
@@ -169,7 +175,9 @@ class OrderView(ViewSet,GenericAPIView):
             raise ValidationError('The cart is empty, fill cart and process order')
         
         else:
-            order=OrderModel.objects.create(created_by=request.user,table_no=request.data.get('table_no') if request.data.get('table_no') else None)
+           
+            serving_mode='Takeaway' if request.data.get('takeaway') == True else 'Dine in'
+            order=OrderModel.objects.create(created_by=request.user,table_no=request.data.get('table_no') if request.data.get('table_no') else None,serving_mode=serving_mode)
             total_price=0
             for each in request.user.cart_user.cart_items.all():
                 OrderItemModel.objects.create(order=order,item=each.item,quantity=each.quantity,price=each.price,total_item_price=each.total_item_price)
@@ -183,7 +191,7 @@ class OrderView(ViewSet,GenericAPIView):
 
 
     def list(self,request,*args,**kwargs):
-        qs=OrderModel.objects.all()
+        qs=OrderModel.objects.all().order_by('-updated_at')
         if request.query_params.get('date')=='today':
             qs=qs.filter(created_at__date=date.today())
        
@@ -266,6 +274,13 @@ class OrderView(ViewSet,GenericAPIView):
         
         qs=order_item
         deserializer=OrderItemSerializer(qs)
+        return Response(data=deserializer.data)
+
+    @action(methods=['get'],detail=True)
+    def order_item_details(self,request,*args,**kwargs):
+        id=kwargs.get('pk')
+        order_items=OrderItemModel.objects.filter(order_id=id)
+        deserializer=OrderItemSerializer(order_items,many=True)
         return Response(data=deserializer.data)
 
 
