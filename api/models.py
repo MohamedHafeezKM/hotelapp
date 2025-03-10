@@ -102,6 +102,22 @@ class OrderModel(models.Model):
     mode=(('Dine in','Dine in'),('Takeaway','Takeaway'))
     serving_mode=models.CharField(max_length=50,choices=mode,default='Dine in')
     table_no=models.TextField(null=True,blank=True)
+    
+    @property
+    def created_user(self):
+        return self.created_by.username
+    
+    @property
+    def cooked_user(self):
+        return self.cooked_by.username
+    
+    @property
+    def tax_amount(self):
+        return (self.total_price*12)/100
+    
+    @property
+    def total_tax_price(self):
+        return self.total_price+self.tax_amount
 
 
 class OrderItemModel(models.Model):
@@ -119,7 +135,13 @@ class OrderItemModel(models.Model):
 
 
 
-
+    @property
+    def tax_amount(self):
+        return (self.total_item_price*12)/100
+    
+    @property
+    def total_tax_price(self):
+        return self.total_item_price+self.tax_amount
 
 
 

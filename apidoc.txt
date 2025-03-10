@@ -121,17 +121,24 @@
     authorization:jwt
     
 
-17.api to update order status
+17.api to update order item status
 
     url:http://127.0.0.1:8000/order/{order_item_id}/order_item_status_change
     method:PUT
-    data:{order_status:Confirmed,Processing,Ready,Canceled}
+    data:{order_item_status:Confirmed,Processing,Ready,Canceled}
     authorization:jwt
 
 
 18. api to view orderitems using order id
 
     url:http://127.0.0.1:8000/order/{order_id}/order_item_details
+    method:GET
+    data:nill
+    authorization:jwt
+
+19. api to download invoice using order id
+
+    url:http://127.0.0.1:8000/order/{order_id}/invoice
     method:GET
     data:nill
     authorization:jwt

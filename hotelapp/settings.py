@@ -40,6 +40,13 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',  # Ensure JSON requests are accepted
     ]
 }
+ASGI_APPLICATION = 'hotelapp.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Use Redis for production
+    },
+}
 
 # Application definition
 
@@ -49,11 +56,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'channels',
     'api',
-    'corsheaders'
+    'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
@@ -149,5 +159,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
+    "ws://localhost:8000",
   
 ]

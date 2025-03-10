@@ -48,10 +48,12 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    cooked_user=serializers.StringRelatedField()
+    created_user=serializers.StringRelatedField()
     class Meta:
         model=OrderModel
         fields='__all__'
-        read_only_fields=['id','order_status','total_price','serving_mode','cooked_by','created_by']
+        read_only_fields=['id','order_status','total_price','serving_mode','cooked_by','created_by','created_user','cooked_user']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
